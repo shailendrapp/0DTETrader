@@ -1,0 +1,64 @@
+name: BIC 0DTE SPX Alerts
+
+on:
+  schedule:
+    - cron: '30 14 * * 1-5'
+    - cron: '35 15 * * 1-5'
+    - cron: '35 16 * * 1-5'
+    - cron: '35 17 * * 1-5'
+    - cron: '35 18 * * 1-5'
+    - cron: '35 19 * * 1-5'
+    - cron: '30 22 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Run mode'
+        required: true
+        default: 'test'
+        type: choice
+        options: [test, morning, entry1, entry2, entry3, entry4, entry5, exit]
+
+jobs:
+  bic-alert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run BIC alert
+        env:
+          TRADIER_API_KEY:    ${{ secrets.TRADIER_API_KEY }}
+          FLASHALPHA_API_KEY: ${{ secrets.FLASHALPHA_API_KEY }}
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            MODE="${{ github.event.inputs.mode }}"
+            case "$MODE" in
+              test)    python bic_0dte_spx.py --test    ;;
+              morning) python bic_0dte_spx.py --morning ;;
+              entry1)  python bic_0dte_spx.py --entry 1 ;;
+              entry2)  python bic_0dte_spx.py --entry 2 ;;
+              entry3)  python bic_0dte_spx.py --entry 3 ;;
+              entry4)  python bic_0dte_spx.py --entry 4 ;;
+              entry5)  python bic_0dte_spx.py --entry 5 ;;
+              exit)    python bic_0dte_spx.py --exit    ;;
+            esac
+          else
+            HOUR=$(date -u +%H)
+            case "$HOUR" in
+              14) python bic_0dte_spx.py --morning  ;;
+              15) python bic_0dte_spx.py --entry 1  ;;
+              16) python bic_0dte_spx.py --entry 2  ;;
+              17) python bic_0dte_spx.py --entry 3  ;;
+              18) python bic_0dte_spx.py --entry 4  ;;
+              19) python bic_0dte_spx.py --entry 5  ;;
+              22) python bic_0dte_spx.py --exit     ;;
+            esac
+          fi
