@@ -1,8 +1,14 @@
 name: BIC 0DTE SPX Alerts
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+ schedule:
+    - cron: '30 14 * * 1-5'   # 06:30 PST — morning
+    - cron: '35 15 * * 1-5'   # 07:35 PST — entry #1
+    - cron: '35 16 * * 1-5'   # 08:35 PST — entry #2
+    - cron: '35 17 * * 1-5'   # 09:35 PST — entry #3
+    - cron: '35 18 * * 1-5'   # 10:35 PST — entry #4
+    - cron: '35 19 * * 1-5'   # 11:35 PST — entry #5
+    - cron: '30 22 * * 1-5'   # 14:30 PST — exit reminder
   workflow_dispatch:
     inputs:
       mode:
