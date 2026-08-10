@@ -1,21 +1,21 @@
 {
   "date": "2026-08-10",
-  "entry_num": 2,
+  "entry_num": 3,
   "expiry": "2026-08-10",
   "legs": [
     {
       "type": "put",
-      "short_strike": 7720,
-      "long_strike": 7695,
-      "entry_delta": 0.087,
-      "entry_credit": 87
+      "short_strike": 7725,
+      "long_strike": 7700,
+      "entry_delta": 0.072,
+      "entry_credit": 65
     },
     {
       "type": "call",
       "short_strike": 7785,
       "long_strike": 7810,
-      "entry_delta": 0.07,
-      "entry_credit": 67
+      "entry_delta": 0.079,
+      "entry_credit": 72
     }
   ]
 }
