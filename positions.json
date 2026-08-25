@@ -7,15 +7,15 @@
       "type": "put",
       "short_strike": 7640,
       "long_strike": 7615,
-      "entry_delta": 0.086,
-      "entry_credit": 78
+      "entry_delta": 0.068,
+      "entry_credit": 56
     },
     {
       "type": "call",
       "short_strike": 7695,
       "long_strike": 7720,
-      "entry_delta": 0.089,
-      "entry_credit": 80
+      "entry_delta": 0.088,
+      "entry_credit": 76
     }
   ]
 }
